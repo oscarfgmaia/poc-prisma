@@ -15,7 +15,7 @@ export async function registerPayment(req: Request, res: Response) {
 
 export async function getPayments(req: Request, res: Response) {
   try {
-    const payments = await paymentsRepository.getAllPayments();
+    const payments = await paymentService.getAllPayments();
     if (!payments) {
       return res.sendStatus(httpStatus.NOT_FOUND);
     } else {
@@ -28,8 +28,9 @@ export async function getPayments(req: Request, res: Response) {
 
 export async function getPayment(req: Request, res: Response) {
   const { id } = req.params;
+  const idInt = parseInt(id);
   try {
-    const payments = await paymentsRepository.getPayment(id);
+    const payments = await paymentService.getPaymentById(idInt);
     if (!payments) {
       return res.sendStatus(httpStatus.NOT_FOUND);
     } else {
@@ -39,37 +40,38 @@ export async function getPayment(req: Request, res: Response) {
     res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
-export async function getTotal(req: Request, res: Response) {
-  try {
-    const total = await paymentsRepository.getTotal();
-    res.send(total)
-  } catch (error) {
-    res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
-  }
-}
 
-export async function deletePayment(req: Request, res: Response) {
-  const { id } = req.params;
-  try {
-    await paymentsRepository.deletePayment(id);
-    res.sendStatus(httpStatus.OK);
-  } catch (error) {
-    res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
-  }
-}
+// export async function getTotal(req: Request, res: Response) {
+//   try {
+//     const total = await paymentsRepository.getTotal();
+//     res.send(total);
+//   } catch (error) {
+//     res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+//   }
+// }
 
-export async function updatePayment(req: Request, res: Response) {
-  const payment = req.body as PaymentInput;
-  const { id } = req.params;
-  try {
-    const paymentExists = await paymentsRepository.getPayment(id);
-    if (!paymentExists) {
-      return res.sendStatus(httpStatus.NOT_FOUND);
-    } else {
-      await paymentsRepository.updatePayment(payment, id);
-      res.sendStatus(httpStatus.OK);
-    }
-  } catch (error) {
-    res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
-  }
-}
+// export async function deletePayment(req: Request, res: Response) {
+//   const { id } = req.params;
+//   try {
+//     await paymentsRepository.deletePayment(id);
+//     res.sendStatus(httpStatus.OK);
+//   } catch (error) {
+//     res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+//   }
+// }
+
+// export async function updatePayment(req: Request, res: Response) {
+//   const payment = req.body as PaymentInput;
+//   const { id } = req.params;
+//   try {
+//     const paymentExists = await paymentsRepository.getPayment(id);
+//     if (!paymentExists) {
+//       return res.sendStatus(httpStatus.NOT_FOUND);
+//     } else {
+//       await paymentsRepository.updatePayment(payment, id);
+//       res.sendStatus(httpStatus.OK);
+//     }
+//   } catch (error) {
+//     res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+//   }
+// }

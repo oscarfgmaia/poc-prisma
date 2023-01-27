@@ -1,3 +1,4 @@
+import notFountError from "../errors/notFoundError.js";
 import paymentsRepository, {
   PaymentInput,
 } from "../repositories/payment-repository.js";
@@ -7,12 +8,21 @@ async function createPayment(payment: PaymentInput) {
 }
 
 async function getAllPayments() {
-    const payments = await paymentsRepository.getAllPayments()
-    if(!payments){
-        throw 
-    }
+  const payments = await paymentsRepository.getAllPayments();
+  if (!payments) {
+    throw notFountError();
+  }
+  return payments;
 }
 
-const paymentService = { createPayment, getAllPayments };
+async function getPaymentById(id:number) {
+    const payment = await paymentsRepository.getPayment(id);
+    if (!payment) {
+      throw notFountError();
+    }
+    return payment;
+  }
+
+const paymentService = { createPayment, getAllPayments,getPaymentById };
 
 export default paymentService;

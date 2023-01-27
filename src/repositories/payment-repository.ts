@@ -1,7 +1,7 @@
 import { Payment } from "@prisma/client";
 import prisma from "../database/database.js";
 
-export type PaymentInput = Omit<Payment,"id">
+export type PaymentInput = Omit<Payment, "id">;
 
 async function registerPayment(payment: PaymentInput) {
   try {
@@ -27,9 +27,9 @@ async function getAllPayments() {
   }
 }
 
-export async function getPayment(id: string) {
+export async function getPayment(id: number) {
   try {
-    return await prisma.payment.findFirst({ where: { id: parseInt(id) } });
+    return await prisma.payment.findFirst({ where: { id } });
   } catch (error) {
     throw {
       name: "Database",
