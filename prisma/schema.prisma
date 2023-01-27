@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int     @id @default(autoincrement())
+  name       String  @db.VarChar(255)
+  payment Payment[]
+
+  @@map("users")
+}
+
+model Payment {
+  id          Int        @id @default(autoincrement())
+  date        DateTime   @default(now())
+  description String     @db.VarChar(255)
+  value       Int
+  bank Bank @relation(fields: [bank_id],references: [id])
+  bank_id Int
+  user User @relation(fields: [user_id],references: [id])
+  user_id Int
+  employee Employee @relation(fields: [employee_id],references: [id])
+  employee_id Int
+
+  @@map("payments")
+}
+
+model Bank {
+  id         Int     @id @default(autoincrement())
+  name       String  @db.VarChar(255)
+  payment Payment[]
+
+  @@map("banks")
+}
+
+model Employee {
+  id          Int     @id @default(autoincrement())
+  name        String  @db.VarChar(255)
+  description String  @db.VarChar(255)
+  value_day Int
+  workday Workday[]
+  payment Payment[]
+  @@map("employees")
+}
+
+model Workday {
+  id Int @id @default(autoincrement())
+  date DateTime
+  description String  @db.VarChar(255)
+  employee Employee @relation(fields: [employee_id],references: [id])
+  employee_id Int
+  
+  @@map("workdays")
+}
