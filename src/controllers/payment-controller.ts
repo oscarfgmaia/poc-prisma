@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
-import paymentsRepository from "../repositories/payment-repository.js";
-import httpStatus from "http-status";
 import { PaymentInput } from "../repositories/payment-repository.js";
+import httpStatus from "http-status";
+import paymentService from "../services/payment-service.js";
+
 export async function registerPayment(req: Request, res: Response) {
   const payment = req.body as PaymentInput;
   try {
-    await paymentsRepository.registerPayment(payment);
+    await paymentService.createPayment(payment);
     res.sendStatus(httpStatus.CREATED);
   } catch (error) {
     res.sendStatus(500);
