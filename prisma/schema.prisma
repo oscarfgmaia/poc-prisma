@@ -22,11 +22,10 @@ model Payment {
   value       Int
   bank        Bank      @relation(fields: [bank_id], references: [id])
   bank_id     Int
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [user_id], references: [id])
   user_id     Int
   employee    Employee  @relation(fields: [employee_id], references: [id])
   employee_id Int
-  userId      Int
 
   @@map("payments")
 }

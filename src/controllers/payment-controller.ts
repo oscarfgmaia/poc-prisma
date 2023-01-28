@@ -7,6 +7,7 @@ export async function registerPayment(req: Request, res: Response) {
   const payment = req.body as PaymentInput;
   try {
     await paymentService.createPayment(payment);
+    console.log('passou')
     res.sendStatus(httpStatus.CREATED);
   } catch (error) {
     res.sendStatus(500);
@@ -75,3 +76,4 @@ export async function getPayment(req: Request, res: Response) {
 //     res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
 //   }
 // }
+

@@ -5,10 +5,12 @@ export type PaymentInput = Omit<Payment, "id">;
 
 async function registerPayment(payment: PaymentInput) {
   try {
+    console.log(payment)
     await prisma.payment.create({
       data: payment,
     });
   } catch (error) {
+    console.log(error)
     throw {
       name: "Database",
       message: "anything went wrong in connection with database",
